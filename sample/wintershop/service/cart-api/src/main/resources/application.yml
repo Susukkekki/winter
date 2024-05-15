@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: cart-api
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/wintershop
+          jwt-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}
+
+server:
+  port: 8002
+
+jwt:
+  auth:
+    converter:
+      resource-id: alibou-rest-api
+      principle-attribute: preferred_username

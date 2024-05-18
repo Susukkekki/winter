@@ -7,6 +7,7 @@
     - [Configure Users](#configure-users)
     - [wintershop Realm settings](#wintershop-realm-settings)
     - [Export wintershop realm including users](#export-wintershop-realm-including-users)
+    - [Export saml-sso realm including users](#export-saml-sso-realm-including-users)
   - [Configure saml-sso realm](#configure-saml-sso-realm)
     - [Create saml-sso realm](#create-saml-sso-realm)
     - [Create saml-sso client](#create-saml-sso-client)
@@ -78,6 +79,24 @@ docker exec -it $CONTAINER_ID /opt/keycloak/bin/kc.sh export --realm wintershop 
 
 ```bash
 docker cp $CONTAINER_ID:/opt/keycloak/bin/wintershop-realm.json .
+```
+
+### Export saml-sso realm including users
+
+> 사용자 정보를 함께 export 하기 위해서는 `kc export` 를 실행해야 한다.
+
+keycloak-saml docker container id 확인
+
+```bash
+CONTAINER_ID=$(docker ps | grep -e "keycloak-saml" | awk '{print $1}')
+```
+
+```bash
+docker exec -it $CONTAINER_ID /opt/keycloak/bin/kc.sh export --realm saml-sso --file /opt/keycloak/bin/saml-sso-realm.json
+```
+
+```bash
+docker cp $CONTAINER_ID:/opt/keycloak/bin/saml-sso-realm.json .
 ```
 
 ## Configure saml-sso realm

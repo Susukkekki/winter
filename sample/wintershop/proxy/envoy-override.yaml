@@ -17,17 +17,17 @@ static_resources:
             - name: wintershop.io
               domains:
               - "*"
-              routes:              
+              routes:
               - match:
                   prefix: "/auth"
                 route:
                   # prefix_rewrite: "/"
-                  cluster: keycloak-envoy         
+                  cluster: keycloak-envoy
               - match:
                   prefix: "/shop"
                 route:
                   prefix_rewrite: "/shop/"
-                  cluster: shop-webapp-envoy       
+                  cluster: shop-webapp-envoy
               - match:
                   prefix: "/cart"
                 route:
@@ -46,6 +46,14 @@ static_resources:
                 route:
                   prefix_rewrite: "/shop/"
                   cluster: shop-webapp-envoy
+            - name: saml.io
+              domains:
+              - "saml.io"
+              routes:
+              - match:
+                  prefix: "/"
+                route:
+                  cluster: keycloak-saml-envoy
           http_filters:
           - name: envoy.filters.http.router
             typed_config:
@@ -87,6 +95,18 @@ static_resources:
             address:
               socket_address:
                 address: keycloak
+                port_value: 8080
+  - name: keycloak-saml-envoy
+    type: STRICT_DNS
+    lb_policy: ROUND_ROBIN
+    load_assignment:
+      cluster_name: keycloak-saml-envoy
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: keycloak-saml
                 port_value: 8080
   - name: cart-webapp-envoy
     type: STRICT_DNS

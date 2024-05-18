@@ -5,12 +5,15 @@
     - [Create shop client](#create-shop-client)
     - [Configure Realm roles](#configure-realm-roles)
     - [Configure Users](#configure-users)
-    - [Realm settings](#realm-settings)
+    - [wintershop Realm settings](#wintershop-realm-settings)
     - [Export wintershop realm including users](#export-wintershop-realm-including-users)
   - [Configure saml-sso realm](#configure-saml-sso-realm)
     - [Create saml-sso realm](#create-saml-sso-realm)
     - [Create saml-sso client](#create-saml-sso-client)
-    - [Configure Identity Providers in wintershop realms](#configure-identity-providers-in-wintershop-realms)
+    - [Add users in saml-sso realm](#add-users-in-saml-sso-realm)
+    - [saml-sso Realm settings](#saml-sso-realm-settings)
+    - [Configure Identity Providers in wintershop realm](#configure-identity-providers-in-wintershop-realm)
+    - [Configure Logout Service POST Binding URL in saml-sso realm](#configure-logout-service-post-binding-url-in-saml-sso-realm)
   - [Troubleshooting](#troubleshooting)
 
 ---
@@ -52,7 +55,7 @@
     - Password : user
     - Temporary : Off
 
-### Realm settings
+### wintershop Realm settings
 
 - Login
   - User registration : On
@@ -66,7 +69,7 @@
 keycloak docker container id 확인
 
 ```bash
-CONTAINER_ID=$(docker ps | grep keycloak | awk '{print $1}')
+CONTAINER_ID=$(docker ps | grep -e "keycloak"| grep -v "keycloak-saml" | awk '{print $1}')
 ```
 
 ```bash
@@ -93,34 +96,122 @@ saml sso 연계를 위해서 saml 을 구성해 보자.
 
 - General Settings
   - Client type : `SAML`
-  - Client ID : `saml-sso`
+  - Client ID : `http://wintershop.io/auth/realms/wintershop`
   - Name : `saml-sso`
+- Login settings
+  - Valid redirect URIs : `http://wintershop.io/*` 추가
 
-- SAML capabilities
-  - Name ID format : `email`
+생성 후,
+
+- Settings 탭
+  - SAML capabilities
+    - Name ID format : `email`
+- Keys 탭
+  - Client signature required : `Off`
 
 > SAML 2.0 Identity Provider Metadata 는 `Realm settings` 의 Endpoints 에서 확인 가능
 
-### Configure Identity Providers in wintershop realms
+### Add users in saml-sso realm
+
+admin user
+
+- Username : `admin@saml.io`
+- Email : `admin@saml.io`
+- Password : `admin` (Temporary : `off`)
+
+normal user
+
+- Username : `user@saml.io`
+- Email : `user@saml.io`
+- Password : `user` (Temporary : `off`)
+
+### saml-sso Realm settings
+
+User profile 탭
+
+- firstName : Required field `Off`
+- lastName : Required field `Off`
+
+### Configure Identity Providers in wintershop realm
 
 - Identity providers
   - Select `SAML v2.0`
 
 - Add SAML provider
-  - Alias : saml
-  - Display name : saml
-  - SAML entity descriptor : `http://172.17.118.82:8081/realms/saml-sso/protocol/saml/descriptor`
+  - Alias : `saml`
+  - Display name : `saml`
+  - Service provider entity : `http://wintershop.io/auth/realms/wintershop` (디폴트로 설정되는 값이다.)
+  - SAML entity descriptor : `http://saml.io/realms/saml-sso/protocol/saml/descriptor`
+
+생성 후, Settings > General settings > `SAML 2.0 Service Provider Metadata` 클릭
+
+> Broker 의 SAML 정보를 확인할 수 있으며 여기서 logout endpoint 를 확인한다.
+
+`SingleLogoutService` 의 `Location` 값을 복사해 둔다.
+
+```xml
+<md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="http://wintershop.io/auth/realms/wintershop/broker/saml/endpoint"/>
+```
+
+### Configure Logout Service POST Binding URL in saml-sso realm
+
+saml client 선택 > Advanced 탭
+
+- Fine Grain SAML Endpoint Configuration
+  - Logout Service POST Binding URL : `http://wintershop.io/auth/realms/wintershop/broker/saml/endpoint`
+
+이걸 설정해 주어야, sso 로 로그인 한 계정이 정상적으로 logout 할 수 있다.
 
 ## Troubleshooting
 
-`invalid_signature` 에러
+1. `invalid_signature` 에러
 
-> `VerificationException: Invalid signature on document`는 client 에서 `Client signature required` 를 off 하니 일단 동작했다.
+> `VerificationException: Invalid signature on document`는 client 에서 `Keys` 탭의 `Client signature required` 를 off 하니 일단 동작했다.
 
-`invalid_redirect_uri` 에러
+2. `invalid_redirect_uri` 에러
 
-cart-api 에서 logout 호출할 때 `Provisional headers are shown` 에러
+`Valid redirect URIs` 설정해 주면 됨.
 
-> `영문을 모르겠음.`
+3. cart-api 에서 logout 호출할 때 `Provisional headers are shown` 에러
+
+> ~~영문을 모르겠음.~~
 
 혹시나 해서 `<a href='/#' onClick={() => keycloak.logout()}>Logout</a>` 에서 `href='/#'`를 삭제했더니 잘 된다.
+
+4. `Can't finish SAML logout as there is no logout binding set.  Please configure the logout service url in the admin console for your client applications.` 에러
+
+saml-sso 렐름, `http://wintershop.io/auth/realms/wintershop` client 의 Advanced 설정에서 `Logout Service POST Binding URL`을 다음과 같이 broker 의 logout url 로 하면 된다.
+
+- http://wintershop.io/auth/realms/wintershop/broker/saml/endpoint
+
+이 정보는 wintershop 렐름의 `Identity providers` 의 saml 설정에서 `General settings > Endpoints` : `SAML 2.0 Service Provider Metadata` 에서 확인할 수 있다.
+
+```xml
+<md:EntityDescriptor xmlns="urn:oasis:names:tc:SAML:2.0:metadata"
+    xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata"
+    xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+    entityID="http://wintershop.io/auth/realms/wintershop"
+    ID="ID_0a0621e0-abcb-4e23-a163-4de61b04384e">
+    <md:SPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol"
+        AuthnRequestsSigned="true" WantAssertionsSigned="false">
+        <md:KeyDescriptor use="signing">
+            <ds:KeyInfo>
+                <ds:KeyName>hKQwKO89YkjiWKZnZ-q-tE3QlImCDxNM5In50VovHHE</ds:KeyName>
+                <ds:X509Data>
+                    <ds:X509Certificate>
+                        MIICozCCAY... 생략 ...
+                    </ds:X509Certificate>
+                </ds:X509Data>
+            </ds:KeyInfo>
+        </md:KeyDescriptor>
+        <md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
+            Location="http://wintershop.io/auth/realms/wintershop/broker/saml/endpoint"></md:SingleLogoutService>
+        <md:NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:persistent</md:NameIDFormat>
+        <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
+            Location="http://wintershop.io/auth/realms/wintershop/broker/saml/endpoint"
+            isDefault="true" index="1"></md:AssertionConsumerService>
+    </md:SPSSODescriptor>
+</md:EntityDescriptor>
+```
+
+> `md:SingleLogoutService` 의 `Location` 값이다.

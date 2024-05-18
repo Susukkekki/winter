@@ -11,7 +11,7 @@
     - [Create saml-sso realm](#create-saml-sso-realm)
     - [Create saml-sso client](#create-saml-sso-client)
     - [Configure Identity Providers in wintershop realms](#configure-identity-providers-in-wintershop-realms)
-    - [Troubleshooting](#troubleshooting)
+  - [Troubleshooting](#troubleshooting)
 
 ---
 
@@ -111,10 +111,16 @@ saml sso 연계를 위해서 saml 을 구성해 보자.
   - Display name : saml
   - SAML entity descriptor : `http://172.17.118.82:8081/realms/saml-sso/protocol/saml/descriptor`
 
-### Troubleshooting
+## Troubleshooting
 
 `invalid_signature` 에러
 
 > `VerificationException: Invalid signature on document`는 client 에서 `Client signature required` 를 off 하니 일단 동작했다.
 
 `invalid_redirect_uri` 에러
+
+cart-api 에서 logout 호출할 때 `Provisional headers are shown` 에러
+
+> `영문을 모르겠음.`
+
+혹시나 해서 `<a href='/#' onClick={() => keycloak.logout()}>Logout</a>` 에서 `href='/#'`를 삭제했더니 잘 된다.

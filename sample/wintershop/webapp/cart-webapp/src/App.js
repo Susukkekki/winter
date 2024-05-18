@@ -93,7 +93,7 @@ function App({keycloak}) {
         </p>
         <a
           className="App-link"
-          href="http://localhost:3000"
+          href="http://wintershop.io/shop"
           // target="_blank"
           rel="noopener noreferrer"
         >
@@ -115,7 +115,7 @@ function App({keycloak}) {
         {
           !!keycloak.authenticated && (
             <li>
-              <a href='/#' onClick={() => keycloak.logout()}>Logout</a>
+              <a href="javascript:void(0);" onClick={() => keycloak.logout()}>Logout</a>
             </li>
           )
         }

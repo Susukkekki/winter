@@ -1,9 +1,25 @@
-version: '3'
+version: '3.3'
 
 services:
+  proxy: 
+    image: envoyproxy/envoy:dev-9a5c4bb3521b68618325d04a304b7be3855e8b14
+    entrypoint: /bin/sh
+    command: -c "envoy -c /etc/envoy/envoy.yaml --config-yaml \"$$(cat /etc/envoy/envoy-override.yaml)\""
+    ports:
+      - "9901:9901"
+      - "10000:10000"
+      - "5678:5678"
+      - "80:80"
+    volumes:
+       - ./proxy/envoy-override.yaml:/etc/envoy/envoy-override.yaml
+    networks:
+      default:
+        aliases:
+          - wintershop.io
+
   keycloak:
     image: quay.io/keycloak/keycloak:24.0
-    command: start-dev --import-realm
+    command: start-dev --import-realm --http-relative-path=/auth
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
@@ -11,6 +27,7 @@ services:
       - "8080:8080"
     volumes:
       - ./keycloak/wintershop-realm.json:/opt/keycloak/data/import/wintershop-realm.json
+    
   keycloak-saml:
     image: quay.io/keycloak/keycloak:24.0
     command: start-dev --import-realm
@@ -20,4 +37,29 @@ services:
     ports:
       - "8081:8080"
     # volumes:
-    #   - ./keycloak/wintershop-realm.json:/opt/keycloak/data/import/wintershop-realm.json
+    #   - ./keycloak/wintershop-realm.json:/opt/keycloak/data/import/wintershop-realm.json    
+  product-api:
+    build: 
+      context: ./service/product-api
+    ports:
+      - "8001:8001"        
+    environment:
+      - ISSUER_URI=http://wintershop.io/auth/realms/wintershop
+  cart-api:
+    build: 
+      context: ./service/cart-api
+    ports:
+      - "8002:8002"        
+    environment:      
+      - ISSUER_URI=http://wintershop.io/auth/realms/wintershop    
+  shop-webapp:
+    build: 
+      context: ./webapp/shop-webapp
+    ports:
+      - "3000:80"
+  cart-webapp:
+    build: 
+      context: ./webapp/cart-webapp
+    ports:
+      - "3001:80"
+   

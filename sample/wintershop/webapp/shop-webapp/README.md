@@ -15,6 +15,7 @@ yarn create react-app shop-webapp
 ```bash
 yarn add keycloak-js
 yarn add http-proxy-agent
+yarn add react-spinners
 ```
 
 ## Available Scripts

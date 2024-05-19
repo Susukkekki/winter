@@ -23,7 +23,7 @@
 
 ---
 
-- [ ] invalid_signature (Off 하지 않아야 함.)
+- [ ] invalid_signature (On 해서 설정하는 방법 모르겠음.)
 - [x] Logout failed : [Configure the logout service url error](#configure-the-logout-service-url-error)
 
 ## Configure wintershop realm

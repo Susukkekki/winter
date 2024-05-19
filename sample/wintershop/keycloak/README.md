@@ -7,7 +7,6 @@
     - [Configure Users](#configure-users)
     - [wintershop Realm settings](#wintershop-realm-settings)
     - [Export wintershop realm including users](#export-wintershop-realm-including-users)
-    - [Export saml-sso realm including users](#export-saml-sso-realm-including-users)
   - [Configure saml-sso realm](#configure-saml-sso-realm)
     - [Create saml-sso realm](#create-saml-sso-realm)
     - [Create saml-sso client](#create-saml-sso-client)
@@ -15,6 +14,7 @@
     - [saml-sso Realm settings](#saml-sso-realm-settings)
     - [Configure Identity Providers in wintershop realm](#configure-identity-providers-in-wintershop-realm)
     - [Configure Logout Service POST Binding URL in saml-sso realm](#configure-logout-service-post-binding-url-in-saml-sso-realm)
+    - [Export saml-sso realm including users](#export-saml-sso-realm-including-users)
   - [Troubleshooting](#troubleshooting)
     - [invalid\_signature error](#invalid_signature-error)
     - [invalid\_redirect\_uri error](#invalid_redirect_uri-error)
@@ -83,24 +83,6 @@ docker exec -it $CONTAINER_ID /opt/keycloak/bin/kc.sh export --realm wintershop 
 
 ```bash
 docker cp $CONTAINER_ID:/opt/keycloak/bin/wintershop-realm.json .
-```
-
-### Export saml-sso realm including users
-
-> 사용자 정보를 함께 export 하기 위해서는 `kc export` 를 실행해야 한다.
-
-keycloak-saml docker container id 확인
-
-```bash
-CONTAINER_ID=$(docker ps | grep -e "keycloak-saml" | awk '{print $1}')
-```
-
-```bash
-docker exec -it $CONTAINER_ID /opt/keycloak/bin/kc.sh export --realm saml-sso --file /opt/keycloak/bin/saml-sso-realm.json
-```
-
-```bash
-docker cp $CONTAINER_ID:/opt/keycloak/bin/saml-sso-realm.json .
 ```
 
 ## Configure saml-sso realm
@@ -184,6 +166,24 @@ saml client 선택 > Advanced 탭
   - Logout Service POST Binding URL : `http://wintershop.io/auth/realms/wintershop/broker/saml/endpoint`
 
 이걸 설정해 주어야, sso 로 로그인 한 계정이 정상적으로 logout 할 수 있다.
+
+### Export saml-sso realm including users
+
+> 사용자 정보를 함께 export 하기 위해서는 `kc export` 를 실행해야 한다.
+
+keycloak-saml docker container id 확인
+
+```bash
+CONTAINER_ID=$(docker ps | grep -e "keycloak-saml" | awk '{print $1}')
+```
+
+```bash
+docker exec -it $CONTAINER_ID /opt/keycloak/bin/kc.sh export --realm saml-sso --file /opt/keycloak/bin/saml-sso-realm.json
+```
+
+```bash
+docker cp $CONTAINER_ID:/opt/keycloak/bin/saml-sso-realm.json .
+```
 
 ## Troubleshooting
 

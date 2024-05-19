@@ -16,11 +16,15 @@
     - [Configure Identity Providers in wintershop realm](#configure-identity-providers-in-wintershop-realm)
     - [Configure Logout Service POST Binding URL in saml-sso realm](#configure-logout-service-post-binding-url-in-saml-sso-realm)
   - [Troubleshooting](#troubleshooting)
+    - [invalid\_signature error](#invalid_signature-error)
+    - [invalid\_redirect\_uri error](#invalid_redirect_uri-error)
+    - [Provisional headers are shown when logout](#provisional-headers-are-shown-when-logout)
+    - [Configure the logout service url error](#configure-the-logout-service-url-error)
 
 ---
 
 - [ ] invalid_signature (Off 하지 않아야 함.)
-- [ ] Logout failed
+- [x] Logout failed : [Configure the logout service url error](#configure-the-logout-service-url-error)
 
 ## Configure wintershop realm
 
@@ -183,21 +187,23 @@ saml client 선택 > Advanced 탭
 
 ## Troubleshooting
 
-1. `invalid_signature` 에러
+### invalid_signature error
 
 > `VerificationException: Invalid signature on document`는 client 에서 `Keys` 탭의 `Client signature required` 를 off 하니 일단 동작했다.
 
-2. `invalid_redirect_uri` 에러
+### invalid_redirect_uri error
 
 `Valid redirect URIs` 설정해 주면 됨.
 
-3. cart-api 에서 logout 호출할 때 `Provisional headers are shown` 에러
+### Provisional headers are shown when logout
 
 > ~~영문을 모르겠음.~~
 
 혹시나 해서 `<a href='/#' onClick={() => keycloak.logout()}>Logout</a>` 에서 `href='/#'`를 삭제했더니 잘 된다.
 
-4. `Can't finish SAML logout as there is no logout binding set.  Please configure the logout service url in the admin console for your client applications.` 에러
+### Configure the logout service url error
+
+`Can't finish SAML logout as there is no logout binding set.  Please configure the logout service url in the admin console for your client applications.` 에러
 
 saml-sso 렐름, `http://wintershop.io/auth/realms/wintershop` client 의 Advanced 설정에서 `Logout Service POST Binding URL`을 다음과 같이 broker 의 logout url 로 하면 된다.
 

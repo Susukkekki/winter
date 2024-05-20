@@ -74,7 +74,7 @@
 keycloak docker container id 확인
 
 ```bash
-CONTAINER_ID=$(docker ps | grep -e "keycloak"| grep -v "keycloak-saml" | awk '{print $1}')
+CONTAINER_ID=$(docker ps | grep -e "keycloak"| grep -v "keycloak-saml" | grep -v "keycloak-postgres" | awk '{print $1}')
 ```
 
 ```bash
@@ -175,6 +175,7 @@ keycloak-saml docker container id 확인
 
 ```bash
 CONTAINER_ID=$(docker ps | grep -e "keycloak-saml" | awk '{print $1}')
+echo $CONTAINER_ID
 ```
 
 ```bash

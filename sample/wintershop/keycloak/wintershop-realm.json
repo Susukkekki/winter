@@ -486,50 +486,6 @@
     "notBefore" : 0,
     "groups" : [ "/admin-group" ]
   }, {
-    "id" : "dd70f6f9-55ab-4fe6-9e53-7a57ce28f88d",
-    "username" : "g-7e6ba26c-bb25-44ee-9ddf-b2b286fd3c58",
-    "emailVerified" : false,
-    "createdTimestamp" : 1716037368899,
-    "enabled" : true,
-    "totp" : false,
-    "credentials" : [ ],
-    "disableableCredentialTypes" : [ ],
-    "requiredActions" : [ ],
-    "federatedIdentities" : [ {
-      "identityProvider" : "saml",
-      "userId" : "G-7e6ba26c-bb25-44ee-9ddf-b2b286fd3c58",
-      "userName" : "g-7e6ba26c-bb25-44ee-9ddf-b2b286fd3c58"
-    } ],
-    "realmRoles" : [ "default-roles-wintershop" ],
-    "notBefore" : 0,
-    "groups" : [ ]
-  }, {
-    "id" : "dabfa689-7768-4c0d-9e0d-65d9f500998f",
-    "username" : "g-8adc6d4c-47a6-4656-84c2-effaf40ad710",
-    "emailVerified" : false,
-    "createdTimestamp" : 1716035918850,
-    "enabled" : true,
-    "totp" : false,
-    "credentials" : [ ],
-    "disableableCredentialTypes" : [ ],
-    "requiredActions" : [ ],
-    "realmRoles" : [ "default-roles-wintershop" ],
-    "notBefore" : 0,
-    "groups" : [ ]
-  }, {
-    "id" : "7528bb93-c54c-4ddd-b34d-29904b7fcdde",
-    "username" : "g-c3802b93-dc4c-4b2e-99e3-f902ac4f5f7e",
-    "emailVerified" : false,
-    "createdTimestamp" : 1716035391415,
-    "enabled" : true,
-    "totp" : false,
-    "credentials" : [ ],
-    "disableableCredentialTypes" : [ ],
-    "requiredActions" : [ ],
-    "realmRoles" : [ "default-roles-wintershop" ],
-    "notBefore" : 0,
-    "groups" : [ ]
-  }, {
     "id" : "8b38561d-c0c7-42e1-8cf4-162d5137dec7",
     "username" : "test",
     "emailVerified" : false,
@@ -1397,9 +1353,12 @@
       "loginHint" : "false",
       "allowCreate" : "true",
       "enabledFromMetadata" : "true",
+      "authnContextComparisonType" : "exact",
+      "syncMode" : "IMPORT",
       "singleSignOnServiceUrl" : "http://saml.io/realms/saml-sso/protocol/saml",
       "wantAuthnRequestsSigned" : "true",
       "allowedClockSkew" : "0",
+      "hideOnLoginPage" : "false",
       "validateSignature" : "true",
       "signingCertificate" : "MIICnzCCAYcCBgGPi5J9djANBgkqhkiG9w0BAQsFADATMREwDwYDVQQDDAhzYW1sLXNzbzAeFw0yNDA1MTgxMTU4MDRaFw0zNDA1MTgxMTU5NDRaMBMxETAPBgNVBAMMCHNhbWwtc3NvMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlGTplL4OymKBdr97ibwDiMKAFhX39pr46kTqkT3hsKTcYiSGAWeqK/HR84RBsyIhrFUcY75t8oXgjs8qGBokv8X8cEyGt04we+7kQH5K2HqESBYcaqIgAPOGuBotG3kkBUWuy4MtQKkw4bLhC9KtEq7QGmDw+IKj64cn13oqTkWTHCYwpnphIm0D96a3nOaSSORqpcDKOl1T0EEBoibr1tsxzwdK6KQDp2vN0LR77Dj0UaJNvcKY7IwnxHPMcJAy9AalUzev8AH3otnulUw8bVUsk1vvgn2BWzkcBAQl1CQAgPJXlfOwwChrGGhs0RAOLsr1co9dOsQmRzXomhi24wIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQBHLle0g/bGBlxXIPg4MhTpwAKTH3jkBqWzSK0e0GGjwLZ17HkC6HzzMnTHImK50hHTi5isu9xsSZVAxN2DdzRNqaVp5xzELy1djr2/JHi7lgNsLLXwO9tQe5NphI5s/6Npzs9Bjbiy/XLbXvOE7XR8YpUaApVMcoXkKqpc0AKq8rX7L7gMgwyYiGQdI6fytAgXUsXPKZunYlkIF35AKjfDtIxZGwA6ndNRa6zJH4d8uBuMQyvj+tyE5CA+uhiVjiOOQ6aQBC4eK4d0XesXP7UmnBA20HscvvttVzPt+9KKAWcI/AKNjGlpN3wFsMrgYYyOZJf2OlMUlmthfIaFKjac",
       "nameIDPolicyFormat" : "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent",

@@ -6,6 +6,7 @@
     - [Group 정보를 Token 에 제공하는 방법은?](#group-정보를-token-에-제공하는-방법은)
     - [Group/Role 에 설정한 attribute 정보는?](#grouprole-에-설정한-attribute-정보는)
       - [Group Attribute 는 어떻게 활용해야 할까?](#group-attribute-는-어떻게-활용해야-할까)
+  - [SSO 사용자에게 Role 맵핑하기](#sso-사용자에게-role-맵핑하기)
 
 ---
 
@@ -242,3 +243,41 @@ custom-attr : `user-custom-value`
 #### Group Attribute 는 어떻게 활용해야 할까?
 
 만약 Group / User 에 override 나 다중 값이 필요한 경우에는 User 에게 설정가능하도록 하고, 그렇지 않은 경우는 User 에는 편집가능하지 않도록 하여 특정 값을 할당하여 사용하는 시나리오에 적합할 것이다.
+
+## SSO 사용자에게 Role 맵핑하기
+
+시나리오는 다음과 같다.
+
+admin@saml.io 계정에 admin 권한을 주려면 어떻게 해야 할까?
+
+> - https://plugins.miniorange.com/ko/keycloak-single-sign-on-wordpress-sso-saml
+> - https://stackoverflow.com/questions/71237279/auto-merge-authenticated-user-from-idp-with-the-existing-user-in-the-keycloak
+>   - 위 링크를 참고하여 Custom Flow 를 만들어 보았으나 성공하지 못했다.
+
+그냥 IDP 에서 로그인하면 GUID 형태의 사용자가 wintershop 렐릅에 만들어지는 것을 확인하였다. GUID 말고는 필요한 정보가 없어서 어떤 사용자인지 알 수 없으므로 IDP 의 email 정보를 wintershop 렐름의 추가된 계정의 email 에 mapping 을 하면, 해당 사용자에게 필요한 권한을 주면 된다.
+
+설정은 다음 과정으로 진행하면 된다.
+
+saml.io 의 saml-sso 렐름에서 Client scope 를 하나 생성한다.
+
+- Name : `x500`
+- Type : `Default`
+- Protocol : `SAML`
+
+`Save` 클릭 후 `Mappers` 탭 선택
+
+`Add predefined mapper` 클릭
+
+- `X500 email` 체크
+- `X500 givenName` 체크
+- `X500 surname` 체크
+
+`Clients` 메뉴에서 SAML client 선택, `Client scopes` 탭 선택
+
+`Add client scope` 클릭 후 `x500` 체크 후 `Add` 그리고 `Default` 버튼 클릭
+
+이렇게 한 후 saml 계정으로 로그인 하면, Username 에는 GUID 가, 그리고 Email 에는 사용자의 이메일 정보가 들어간다.
+
+![](.md/README.md/userlist.png)
+
+그리고 권한은 저 계정을 선택 후 필요한 걸 추가해 주면 된다.

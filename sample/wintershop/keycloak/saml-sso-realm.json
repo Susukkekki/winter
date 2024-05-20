@@ -525,7 +525,9 @@
     "publicClient" : true,
     "frontchannelLogout" : false,
     "protocol" : "openid-connect",
-    "attributes" : { },
+    "attributes" : {
+      "post.logout.redirect.uris" : "+"
+    },
     "authenticationFlowBindingOverrides" : { },
     "fullScopeAllowed" : false,
     "nodeReRegistrationTimeout" : 0,
@@ -551,7 +553,9 @@
     "publicClient" : false,
     "frontchannelLogout" : false,
     "protocol" : "openid-connect",
-    "attributes" : { },
+    "attributes" : {
+      "post.logout.redirect.uris" : "+"
+    },
     "authenticationFlowBindingOverrides" : { },
     "fullScopeAllowed" : false,
     "nodeReRegistrationTimeout" : 0,
@@ -586,6 +590,7 @@
       "saml.force.post.binding" : "true",
       "saml_single_logout_service_url_post" : "http://wintershop.io/auth/realms/wintershop/broker/saml/endpoint",
       "saml.encrypt" : "false",
+      "post.logout.redirect.uris" : "+",
       "saml.server.signature" : "true",
       "saml.server.signature.keyinfo.ext" : "false",
       "saml.signing.certificate" : "MIIC5TCCAc0CBgGPi8cClzANBgkqhkiG9w0BAQsFADA2MTQwMgYDVQQDDCtodHRwOi8vd2ludGVyc2hvcC5pby9hdXRoL3JlYWxtcy93aW50ZXJzaG9wMB4XDTI0MDUxODEyNTUyNloXDTM0MDUxODEyNTcwNlowNjE0MDIGA1UEAwwraHR0cDovL3dpbnRlcnNob3AuaW8vYXV0aC9yZWFsbXMvd2ludGVyc2hvcDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALtkwvAxkwCB90n7ZrUYhZMi3Jw/QRAMbRddmsF1Jks8S5fvzCbLrfNj0ztfcWF24kPa7U9zk0tSRqw+KyBK5nBOVUeHpk9awErKeODRDI6CyX2PDR3/OCgtY88Wl3399vhVgtKTgvg4ae5hd9LSbhrJpOPR0R3g8U1lB3h7M9NHRKz+Iq79rRbkr0TcymGBSdEyncZqJmIc8kj8qX4865ManAxPbgkSXHxX/Sv1kzowe27e1/YD+x1XGm066ODfDWkKQpR6y7x/ma3Gy3XzsigfNPQSIdvlYK4e4MfJ9fuzlmefWtCryyldvbrPMyY6wFN/4Pnzcg9pFJa6XWjkoLMCAwEAATANBgkqhkiG9w0BAQsFAAOCAQEANYOc6FyMIgh2haHNBTm8ZPtNzsYGRlWkjO+ve7eHYBHb3W+CZSr0nhgZ3wCOWJTp0ABtegYkGskLKCTs9hmqMjO/smfNKjgbNMTpy2FPprLD4BlZ9zJ2teiuymJK74pC382ymVfULGPPcsvxSlG+SqyJoQOv6FrDMzZuejpUJbTvNhcUJvnFnoLRY/qQFDY97x2DJmYcCTa8Mg6W2DJEEwuTmdnA5bKGHdQ7AX+bpyWEicWWXoew6MSpqBkNYyPvdPvD877XsQ8rUlI2Yihk698+/oRx2ouPlgqrkJbwwAyyTn8XyEHeyinjP/KPclDreHWtzDR6YNLk7X1yBUJhJQ==",
@@ -606,7 +611,7 @@
     "authenticationFlowBindingOverrides" : { },
     "fullScopeAllowed" : true,
     "nodeReRegistrationTimeout" : -1,
-    "defaultClientScopes" : [ "role_list" ],
+    "defaultClientScopes" : [ "role_list", "x500" ],
     "optionalClientScopes" : [ ]
   }, {
     "id" : "a6928482-e117-4d99-9ae1-470fede78bc8",
@@ -628,7 +633,9 @@
     "publicClient" : false,
     "frontchannelLogout" : false,
     "protocol" : "openid-connect",
-    "attributes" : { },
+    "attributes" : {
+      "post.logout.redirect.uris" : "+"
+    },
     "authenticationFlowBindingOverrides" : { },
     "fullScopeAllowed" : false,
     "nodeReRegistrationTimeout" : 0,
@@ -724,6 +731,54 @@
       }
     } ]
   }, {
+    "id" : "b85e4609-abc6-4219-9e69-66977a6353d6",
+    "name" : "x500",
+    "description" : "",
+    "protocol" : "saml",
+    "attributes" : {
+      "include.in.token.scope" : "false",
+      "display.on.consent.screen" : "true",
+      "gui.order" : "",
+      "consent.screen.text" : ""
+    },
+    "protocolMappers" : [ {
+      "id" : "214a116b-7ff9-4b0b-9942-3e54fa3e31ad",
+      "name" : "X500 surname",
+      "protocol" : "saml",
+      "protocolMapper" : "saml-user-property-mapper",
+      "consentRequired" : false,
+      "config" : {
+        "attribute.nameformat" : "urn:oasis:names:tc:SAML:2.0:attrname-format:uri",
+        "user.attribute" : "lastName",
+        "friendly.name" : "surname",
+        "attribute.name" : "urn:oid:2.5.4.4"
+      }
+    }, {
+      "id" : "daa74fb5-ebc5-4455-8015-0ba52446bb4c",
+      "name" : "X500 givenName",
+      "protocol" : "saml",
+      "protocolMapper" : "saml-user-property-mapper",
+      "consentRequired" : false,
+      "config" : {
+        "attribute.nameformat" : "urn:oasis:names:tc:SAML:2.0:attrname-format:uri",
+        "user.attribute" : "firstName",
+        "friendly.name" : "givenName",
+        "attribute.name" : "urn:oid:2.5.4.42"
+      }
+    }, {
+      "id" : "1b03ab41-c92a-4d4c-a8fa-31cbde2ba7e1",
+      "name" : "X500 email",
+      "protocol" : "saml",
+      "protocolMapper" : "saml-user-property-mapper",
+      "consentRequired" : false,
+      "config" : {
+        "attribute.nameformat" : "urn:oasis:names:tc:SAML:2.0:attrname-format:uri",
+        "user.attribute" : "email",
+        "friendly.name" : "email",
+        "attribute.name" : "urn:oid:1.2.840.113549.1.9.1"
+      }
+    } ]
+  }, {
     "id" : "35c5a7ff-ea74-4533-a7e1-8a2edb30ac7f",
     "name" : "address",
     "description" : "OpenID Connect built-in scope: address",
@@ -811,7 +866,8 @@
       "config" : {
         "id.token.claim" : "true",
         "introspection.token.claim" : "true",
-        "access.token.claim" : "true"
+        "access.token.claim" : "true",
+        "userinfo.token.claim" : "true"
       }
     } ]
   }, {
@@ -917,6 +973,7 @@
       "config" : {
         "introspection.token.claim" : "true",
         "multivalued" : "true",
+        "userinfo.token.claim" : "true",
         "user.attribute" : "foo",
         "id.token.claim" : "true",
         "access.token.claim" : "true",
@@ -1173,7 +1230,7 @@
       }
     } ]
   } ],
-  "defaultDefaultClientScopes" : [ "role_list", "profile", "email", "roles", "web-origins", "acr" ],
+  "defaultDefaultClientScopes" : [ "role_list", "profile", "email", "roles", "web-origins", "acr", "x500" ],
   "defaultOptionalClientScopes" : [ "offline_access", "address", "phone", "microprofile-jwt" ],
   "browserSecurityHeaders" : {
     "contentSecurityPolicyReportOnly" : "",
@@ -1219,7 +1276,7 @@
       "subType" : "anonymous",
       "subComponents" : { },
       "config" : {
-        "allowed-protocol-mapper-types" : [ "saml-user-property-mapper", "oidc-address-mapper", "saml-role-list-mapper", "oidc-usermodel-attribute-mapper", "oidc-sha256-pairwise-sub-mapper", "oidc-full-name-mapper", "saml-user-attribute-mapper", "oidc-usermodel-property-mapper" ]
+        "allowed-protocol-mapper-types" : [ "oidc-usermodel-attribute-mapper", "oidc-full-name-mapper", "saml-user-attribute-mapper", "saml-role-list-mapper", "oidc-usermodel-property-mapper", "oidc-address-mapper", "saml-user-property-mapper", "oidc-sha256-pairwise-sub-mapper" ]
       }
     }, {
       "id" : "f0fbe597-f3a7-424d-98ca-22f0305da408",
@@ -1244,7 +1301,7 @@
       "subType" : "authenticated",
       "subComponents" : { },
       "config" : {
-        "allowed-protocol-mapper-types" : [ "oidc-usermodel-property-mapper", "saml-user-attribute-mapper", "oidc-usermodel-attribute-mapper", "oidc-full-name-mapper", "oidc-sha256-pairwise-sub-mapper", "saml-role-list-mapper", "oidc-address-mapper", "saml-user-property-mapper" ]
+        "allowed-protocol-mapper-types" : [ "oidc-sha256-pairwise-sub-mapper", "saml-user-property-mapper", "oidc-address-mapper", "saml-user-attribute-mapper", "saml-role-list-mapper", "oidc-usermodel-attribute-mapper", "oidc-full-name-mapper", "oidc-usermodel-property-mapper" ]
       }
     }, {
       "id" : "1ccec5eb-d059-4e2a-b7f6-c26822cc54ee",
@@ -1868,8 +1925,12 @@
     "cibaExpiresIn" : "120",
     "cibaAuthRequestedUserHint" : "login_hint",
     "oauth2DeviceCodeLifespan" : "600",
+    "clientOfflineSessionMaxLifespan" : "0",
     "oauth2DevicePollingInterval" : "5",
+    "clientSessionIdleTimeout" : "0",
     "parRequestUriLifespan" : "60",
+    "clientSessionMaxLifespan" : "0",
+    "clientOfflineSessionIdleTimeout" : "0",
     "cibaInterval" : "5",
     "realmReusableOtpCode" : "false"
   },

@@ -23,7 +23,7 @@
 ```bash
 USER_ID=admin
 USER_PWD=admin
-TOKEN=$(curl -X POST http://localhost:8080/realms/wintershop/protocol/openid-connect/token \
+TOKEN=$(curl -X POST http://localhost:8080/auth/realms/wintershop/protocol/openid-connect/token \
     -H "Content-Type: application/x-www-form-urlencoded" \
     -d "grant_type=password&client_id=shop&username=${USER_ID}&password=${USER_PWD}" \
     | jq -r '.access_token')

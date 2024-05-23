@@ -4,6 +4,8 @@
   - [How To run](#how-to-run)
   - [Keycloak Group](#keycloak-group)
     - [Group 정보를 Token 에 제공하는 방법은?](#group-정보를-token-에-제공하는-방법은)
+      - [Group Tree Mapper](#group-tree-mapper)
+      - [Group Membership Mapper](#group-membership-mapper)
     - [Group/Role 에 설정한 attribute 정보는?](#grouprole-에-설정한-attribute-정보는)
       - [Group Attribute 는 어떻게 활용해야 할까?](#group-attribute-는-어떻게-활용해야-할까)
   - [SSO 사용자에게 Role 맵핑하기](#sso-사용자에게-role-맵핑하기)
@@ -105,6 +107,16 @@ Group 정보는 보이지 않고, Group 에 연결된 Role 정보가 추가되�
 ### Group 정보를 Token 에 제공하는 방법은?
 
 > 가능하다!
+
+#### Group Tree Mapper
+
+> Custom Mapper 를 이용한 방법
+
+[Group Tree Mapper](./keycloak/group-tree-mapper/README.md)
+
+#### Group Membership Mapper
+
+> Keycloak 에서 제공하는 Mapper 활용
 
 설정 순서를 요약하면 다음과 같다.
 

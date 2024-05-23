@@ -7,6 +7,7 @@
     - [Configure Users](#configure-users)
     - [wintershop Realm settings](#wintershop-realm-settings)
     - [Export wintershop realm including users](#export-wintershop-realm-including-users)
+    - [Localization](#localization)
   - [Configure saml-sso realm](#configure-saml-sso-realm)
     - [Create saml-sso realm](#create-saml-sso-realm)
     - [Create saml-sso client](#create-saml-sso-client)
@@ -84,6 +85,18 @@ docker exec -it $CONTAINER_ID /opt/keycloak/bin/kc.sh export --realm wintershop 
 ```bash
 docker cp $CONTAINER_ID:/opt/keycloak/bin/wintershop-realm.json .
 ```
+
+### Localization
+
+[custom_theme](./custom_theme/)에 구성한 것 참고
+
+- [custom_theme/login/theme.properties](custom_theme/login/theme.properties)
+- [custom_theme/login/messages/messages_ko.properties](custom_theme/login/messages/messages_ko.properties)
+
+그리고 Localization > Realm overrides 에 Korean 선택, `Add translation` 버튼 클릭하고 다음 값을 추가해 주어야 한다.
+
+- Key : `local_ko`
+- Value : `한국어`
 
 ## Configure saml-sso realm
 

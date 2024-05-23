@@ -407,6 +407,42 @@
       "attributes" : { },
       "realmRoles" : [ ],
       "clientRoles" : { }
+    }, {
+      "id" : "5f1b08e5-cddf-4324-91b4-fcde047a0300",
+      "name" : "menu",
+      "path" : "/admin-group/menu",
+      "parentId" : "c60853fb-d06c-4066-9c21-09881b9e42ce",
+      "subGroups" : [ {
+        "id" : "4b9c0a5e-e150-4dc3-8754-5146f09ebae9",
+        "name" : "admin",
+        "path" : "/admin-group/menu/admin",
+        "parentId" : "5f1b08e5-cddf-4324-91b4-fcde047a0300",
+        "subGroups" : [ ],
+        "attributes" : { },
+        "realmRoles" : [ ],
+        "clientRoles" : { }
+      }, {
+        "id" : "73f66cf5-8799-476e-8e1a-53e8cf1a040d",
+        "name" : "cart",
+        "path" : "/admin-group/menu/cart",
+        "parentId" : "5f1b08e5-cddf-4324-91b4-fcde047a0300",
+        "subGroups" : [ ],
+        "attributes" : { },
+        "realmRoles" : [ ],
+        "clientRoles" : { }
+      }, {
+        "id" : "2f268964-dce6-4efa-92d2-cd1c938c5178",
+        "name" : "product",
+        "path" : "/admin-group/menu/product",
+        "parentId" : "5f1b08e5-cddf-4324-91b4-fcde047a0300",
+        "subGroups" : [ ],
+        "attributes" : { },
+        "realmRoles" : [ ],
+        "clientRoles" : { }
+      } ],
+      "attributes" : { },
+      "realmRoles" : [ ],
+      "clientRoles" : { }
     } ],
     "attributes" : {
       "custom-attr" : [ "admin-group-value" ]
@@ -417,7 +453,34 @@
     "id" : "40dc1661-cbdb-4e15-89b2-5c7bc63ba319",
     "name" : "user-group",
     "path" : "/user-group",
-    "subGroups" : [ ],
+    "subGroups" : [ {
+      "id" : "84233979-df05-4d3c-b073-31bbf3743e9e",
+      "name" : "menu",
+      "path" : "/user-group/menu",
+      "parentId" : "40dc1661-cbdb-4e15-89b2-5c7bc63ba319",
+      "subGroups" : [ {
+        "id" : "3309ade8-f618-4612-979b-e57587e632fd",
+        "name" : "cart",
+        "path" : "/user-group/menu/cart",
+        "parentId" : "84233979-df05-4d3c-b073-31bbf3743e9e",
+        "subGroups" : [ ],
+        "attributes" : { },
+        "realmRoles" : [ ],
+        "clientRoles" : { }
+      }, {
+        "id" : "05a09664-33ce-47ef-9d8e-8a6798abd7fe",
+        "name" : "product",
+        "path" : "/user-group/menu/product",
+        "parentId" : "84233979-df05-4d3c-b073-31bbf3743e9e",
+        "subGroups" : [ ],
+        "attributes" : { },
+        "realmRoles" : [ ],
+        "clientRoles" : { }
+      } ],
+      "attributes" : { },
+      "realmRoles" : [ ],
+      "clientRoles" : { }
+    } ],
     "attributes" : { },
     "realmRoles" : [ "product-read" ],
     "clientRoles" : { }
@@ -483,6 +546,9 @@
     "disableableCredentialTypes" : [ ],
     "requiredActions" : [ ],
     "realmRoles" : [ "default-roles-wintershop", "admin", "user" ],
+    "clientRoles" : {
+      "realm-management" : [ "query-groups", "view-users", "query-users", "manage-users" ]
+    },
     "notBefore" : 0,
     "groups" : [ "/admin-group" ]
   }, {
@@ -1211,6 +1277,18 @@
         "jsonType.label" : "String"
       }
     }, {
+      "id" : "926fac87-a45e-4f5a-a077-df67cc566b3e",
+      "name" : "group-tree-mapper",
+      "protocol" : "openid-connect",
+      "protocolMapper" : "oidc-group-tree-mapper",
+      "consentRequired" : false,
+      "config" : {
+        "id.token.claim" : "true",
+        "lightweight.claim" : "false",
+        "access.token.claim" : "true",
+        "userinfo.token.claim" : "true"
+      }
+    }, {
       "id" : "b5b80c7a-a18c-4d2b-a9eb-2c1318b25511",
       "name" : "group-membership",
       "protocol" : "openid-connect",
@@ -1386,7 +1464,7 @@
       "subType" : "authenticated",
       "subComponents" : { },
       "config" : {
-        "allowed-protocol-mapper-types" : [ "saml-role-list-mapper", "oidc-usermodel-property-mapper", "oidc-sha256-pairwise-sub-mapper", "oidc-full-name-mapper", "saml-user-property-mapper", "saml-user-attribute-mapper", "oidc-address-mapper", "oidc-usermodel-attribute-mapper" ]
+        "allowed-protocol-mapper-types" : [ "saml-role-list-mapper", "oidc-sha256-pairwise-sub-mapper", "saml-user-attribute-mapper", "oidc-usermodel-property-mapper", "oidc-full-name-mapper", "saml-user-property-mapper", "oidc-address-mapper", "oidc-usermodel-attribute-mapper" ]
       }
     }, {
       "id" : "16b3c593-2c9f-4b4a-9b33-9234fd81c259",
@@ -1432,7 +1510,7 @@
       "subType" : "anonymous",
       "subComponents" : { },
       "config" : {
-        "allowed-protocol-mapper-types" : [ "saml-user-attribute-mapper", "oidc-usermodel-property-mapper", "oidc-address-mapper", "oidc-full-name-mapper", "saml-role-list-mapper", "oidc-usermodel-attribute-mapper", "oidc-sha256-pairwise-sub-mapper", "saml-user-property-mapper" ]
+        "allowed-protocol-mapper-types" : [ "oidc-usermodel-attribute-mapper", "saml-user-attribute-mapper", "oidc-address-mapper", "saml-role-list-mapper", "oidc-sha256-pairwise-sub-mapper", "saml-user-property-mapper", "oidc-full-name-mapper", "oidc-usermodel-property-mapper" ]
       }
     }, {
       "id" : "3fb92599-0558-4506-a528-a2d76cbfcf0e",

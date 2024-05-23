@@ -2,6 +2,17 @@ import logo from './logo.svg';
 import './App.css';
 import { useEffect, useState } from 'react';
 
+// https://stackoverflow.com/questions/38552003/how-to-decode-jwt-token-in-javascript-without-using-a-library
+function parseJwt (token) {
+  var base64Url = token.split('.')[1];
+  var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+  }).join(''));
+
+  return JSON.parse(jsonPayload);
+}
+
 async function get_product_list(keycloak) {
   const response = await fetch('/api/v1/product', {
     headers: {
@@ -68,6 +79,13 @@ function App({keycloak}) {
   const [productList, setProductList] = useState([])
   const [productDetail, setProductDetail] = useState([])
   const [cartList, setCartList] = useState([])
+  
+  const token = parseJwt(keycloak.token);
+
+  // HACK: 불완전한 코드다. Group 이 여러개면 menu 를 merge 할 필요가 있음.
+  const admin = (token['group']['tree'][Object.keys(token['group']['tree'])[0]]['menu']['admin'] != undefined) ? true : false;
+  const cart = (token['group']['tree'][Object.keys(token['group']['tree'])[0]]['menu']['cart'] != undefined) ? true : false;
+  const product = (token['group']['tree'][Object.keys(token['group']['tree'])[0]]['menu']['product'] != undefined) ? true : false;
 
   useEffect(()=> {
     get_product_list(keycloak).then(text => {
@@ -86,6 +104,25 @@ function App({keycloak}) {
   return (
     <div className="App">
       <header className="App-header">
+
+        <table><tr>
+        {
+          admin && (
+          <td style={{padding: "15px"}}>Admin</td>          
+          )
+        }
+        {
+          product && (
+            <td style={{padding: "15px"}}><ins>Product</ins></td>
+          )
+        }
+        {
+          cart && (
+          <td style={{padding: "15px"}}>Cart</td>
+          )
+        }
+        </tr></table>
+
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           SHOP-WEBAPP

@@ -27,7 +27,7 @@ function Woops() {
 
 const keycloak = new Keycloak({
   realm: 'wintershop',
-  // url: 'http://localhost:8080/',
+  // url: 'http://localhost:8080/auth',
   url: 'http://wintershop.io/auth',
   clientId: 'shop'
 });

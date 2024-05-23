@@ -161,7 +161,8 @@ Clients 메뉴에서 `shop` 클라이언트 선택, `Client scopes` 탭으로 �
 >       - 사용자 > Group 의 우선순위로 설정된 값이 최종 적용된다.
 >     - Aggregate attribute values On 시 (OpenID Connect 의 경우 Multivalued On 필요)
 >       - 설정된 다중 값을 모두 토큰에 추가한다.
-> - Role attribute 는 추가 불가 (아래 관련 이슈 링크)
+> - Role attribute 는 추가 ~~불가~~ (아래 관련 이슈 링크)
+>   - Custom Mapper 를 개발하면 가능
 >   - [KeyCloak - How to add Role's attribute into a user JWT (Access Token)?](https://stackoverflow.com/questions/76042439/keycloak-how-to-add-roles-attribute-into-a-user-jwt-access-token)
 >   - [\[KEYCLOAK-17418\] Should role attributes be made available as user attributes?](https://github.com/keycloak/keycloak/issues/10002)
 

@@ -80,14 +80,19 @@
 
 로그인 화면에서 언어 선택 콤보 박스에 그냥 `ko`라고 표시되는 것을 해결하기 위해서는 `locale_ko` 에 대한 값을 언어별로 추가해 주어야 한다.
 
-그리고 Localization > Realm overrides 에 Korean 선택, `Add translation` 버튼 클릭하고 다음 값을 추가해 주어야 한다.
+1. `messages_*.properties` 에 추가
+2. Localization > `Realm overrides` 으로 추가
+
+Localization > Realm overrides 에 Korean 선택, `Add translation` 버튼 클릭하고 다음 값을 추가해 주어야 한다.
 
 - Key : `locale_ko`
 - Value : `한국어`
 
 English 등 다른 언어도 추가 필요.
 
-> 🤔 UI에서 일일이 하는 것은 불편하다. 좀더 편한 방법은 없을까?
+> - 🤔 UI에서 일일이 하는 것은 불편하다. 좀더 편한 방법은 없을까?  
+> - `messages_*.properties`에 locale_ko를 추가해 주면 된다. 
+> - [Keycloak 가이드](https://www.keycloak.org/docs/latest/server_development/#adding-a-language-to-a-realm)
 
 ### Export wintershop realm including users
 

@@ -505,6 +505,9 @@
   "localizationTexts" : {
     "ko" : {
       "locale_ko" : "한국어"
+    },
+    "en" : {
+      "locale_ko" : "한국어"
     }
   },
   "webAuthnPolicyRpEntityName" : "keycloak",

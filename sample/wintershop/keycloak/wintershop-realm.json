@@ -493,6 +493,7 @@
     "clientRole" : false,
     "containerId" : "1f1e7ccd-8640-4c0d-98dd-0612291163df"
   },
+  "defaultGroups" : [ "/user-group" ],
   "requiredCredentials" : [ "password" ],
   "otpPolicyType" : "totp",
   "otpPolicyAlgorithm" : "HmacSHA1",
@@ -537,6 +538,7 @@
     "username" : "admin",
     "emailVerified" : false,
     "attributes" : {
+      "locale" : [ "en" ],
       "custom-attr" : [ "user-custom-value" ]
     },
     "createdTimestamp" : 1715741086496,
@@ -562,6 +564,9 @@
     "id" : "8b38561d-c0c7-42e1-8cf4-162d5137dec7",
     "username" : "test",
     "emailVerified" : false,
+    "attributes" : {
+      "locale" : [ "en" ]
+    },
     "createdTimestamp" : 1715763031015,
     "enabled" : true,
     "totp" : false,
@@ -574,9 +579,9 @@
     } ],
     "disableableCredentialTypes" : [ ],
     "requiredActions" : [ ],
-    "realmRoles" : [ "default-roles-wintershop" ],
+    "realmRoles" : [ "default-roles-wintershop", "user" ],
     "notBefore" : 0,
-    "groups" : [ ]
+    "groups" : [ "/user-group" ]
   }, {
     "id" : "19d1c6b5-7d12-47db-8ad1-0a832c664704",
     "username" : "user",
